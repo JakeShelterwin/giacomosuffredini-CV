@@ -775,8 +775,10 @@ body main .tile .singleBlock .location a {
 body main .tile .singleBlock .location a:hover {
   text-decoration: underline;
 }
-body main .tile .singleBlock .location .time {
-  white-space: nowrap;
+body main .tile .singleBlock .location .time a {
+  display: inline-block;
+  width: -moz-fit-content;
+  width: fit-content;
 }
 body main .tile .singleBlock .single-mansione {
   padding-left: var(--distanza-left);

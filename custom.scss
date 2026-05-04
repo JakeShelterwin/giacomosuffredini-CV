@@ -770,7 +770,10 @@ body {
             }
           }
           .time{
-            white-space: nowrap;
+            a{
+              display: inline-block;
+              width: fit-content;
+            }
           }
         }
         .single-mansione{
