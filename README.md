@@ -11,7 +11,6 @@ phone: Su richiesta
 languages: Italiano (madrelingua), Inglese (professionale), Spagnolo (intermedio)
 years_experience: 5+
 current_role: Tech Lead
-current_company: Bonuccelli Adpower S.r.l.
 ---
 
 # Giacomo Suffredini
@@ -71,7 +70,6 @@ Project Management, Team Leadership, Code Review, IT Management, Troubleshooting
 ### Tech Lead — Bonuccelli Adpower S.r.l.
 
 **Periodo:** Maggio 2025 – Presente
-**Sito azienda:** [filanda.it](https://www.filanda.it/)
 
 - Coordinamento e gestione di un team di 3 sviluppatori su oltre 12 progetti attivi in parallelo, con ownership diretta dall'architettura tecnica al deploy e definizione delle project roadmap.
 - Nominato responsabile IT per iniziativa propria, prima della formalizzazione del ruolo; combinazione di leadership tecnica, code review rigorose e risoluzione di colli di bottiglia architetturali.
@@ -82,7 +80,6 @@ Project Management, Team Leadership, Code Review, IT Management, Troubleshooting
 ### Full Stack Web Developer — Bonuccelli Adpower S.r.l.
 
 **Periodo:** Aprile 2021 – Presente
-**Sito azienda:** [filanda.it](https://www.filanda.it/)
 
 - Realizzazione di oltre 20 temi custom WordPress (ACF, Custom Post Types, WPML) a partire da mockup parziali (Figma, Adobe XD, Illustrator), completando l'implementazione in autonomia con totale coerenza visiva e funzionale.
 - Sviluppo di web application dinamiche su Laravel e personalizzazione di progetti in React.
