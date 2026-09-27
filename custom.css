@@ -43,32 +43,32 @@ p:last-child {
 :root {
   --bg: #03040c;
   --bg2: #060814;
-  --surface: rgba(255,255,255,0.055);
-  --border: rgba(255,255,255,0.11);
-  --hi: rgba(255,255,255,0.20);
-  --shadow: rgba(0,0,0,0.65);
+  --surface: rgba(255, 255, 255, 0.055);
+  --border: rgba(255, 255, 255, 0.11);
+  --hi: rgba(255, 255, 255, 0.2);
+  --shadow: rgba(0, 0, 0, 0.65);
   --star1: #e8eeff;
   --star2: #c8d8ff;
   --star3: #f0d8a0;
   --sapphire: #5b9cf6;
-  --sapphire-glow: rgba(91,156,246,0.35);
+  --sapphire-glow: rgba(91, 156, 246, 0.35);
   --aurora: #a78bfa;
-  --aurora-glow: rgba(167,139,250,0.3);
+  --aurora-glow: rgba(167, 139, 250, 0.3);
   --comet: #67e8f9;
-  --comet-glow: rgba(103,232,249,0.3);
+  --comet-glow: rgba(103, 232, 249, 0.3);
   --nebula: #f472b6;
-  --nebula-glow: rgba(244,114,182,0.25);
+  --nebula-glow: rgba(244, 114, 182, 0.25);
   --gold: #fbbf24;
-  --gold-glow: rgba(251,191,36,0.3);
-  --t-pri: rgba(255,255,255,0.93);
-  --t-sec: rgba(200,216,255,0.55);
-  --t-mute: rgba(150,175,220,0.28);
+  --gold-glow: rgba(251, 191, 36, 0.3);
+  --t-pri: rgba(255, 255, 255, 0.93);
+  --t-sec: rgba(200, 216, 255, 0.55);
+  --t-mute: rgba(150, 175, 220, 0.28);
   /* --glass-background: rgba(15,25,60,0.8); */
   --glass-background: rgba(2, 4, 12, 0.5);
-  --ui-bg: rgba(255,255,255,0.07);
-  --ui-bd: rgba(255,255,255,0.14);
-  --ui-text: rgba(255,255,255,0.8);
-  --cosmic-latte: #FFF8E7;
+  --ui-bg: rgba(255, 255, 255, 0.07);
+  --ui-bd: rgba(255, 255, 255, 0.14);
+  --ui-text: rgba(255, 255, 255, 0.8);
+  --cosmic-latte: #fff8e7;
 }
 
 ::-webkit-scrollbar {
@@ -129,7 +129,8 @@ body {
     padding-bottom: 30px;
   }
 }
-body strong, body b {
+body strong,
+body b {
   font-weight: 600;
 }
 body {
@@ -389,7 +390,8 @@ body .scrolling-header .contattiHeader.cliccato {
 body .scrolling-header .contattiHeader .contattiAScomparsa {
   color: var(--cosmic-latte);
 }
-body .scrolling-header .contattiHeader .contattiAScomparsa a, body .scrolling-header .contattiHeader .contattiAScomparsa button {
+body .scrolling-header .contattiHeader .contattiAScomparsa a,
+body .scrolling-header .contattiHeader .contattiAScomparsa button {
   color: var(--cosmic-latte);
   display: inline-block;
   width: 25px;
@@ -573,7 +575,9 @@ body header.tile .btn-download-pdf svg {
   display: inline-block;
   fill: var(--cosmic-latte);
 }
-body header.tile .btn-download-pdf i, body header.tile .btn-download-pdf svg, body header.tile .btn-download-pdf span {
+body header.tile .btn-download-pdf i,
+body header.tile .btn-download-pdf svg,
+body header.tile .btn-download-pdf span {
   position: relative;
   z-index: 2;
 }
@@ -788,32 +792,32 @@ body main .tile .singleBlock .single-mansione {
 body main .tile .singleBlock .single-mansione:first-child {
   --bg-1: #5b9cf6;
   --bg-2: #2563eb;
-  --shadow-1: rgba(91,156,246,0.7);
-  --shadow-2: rgba(91,156,246,0.3);
+  --shadow-1: rgba(91, 156, 246, 0.7);
+  --shadow-2: rgba(91, 156, 246, 0.3);
 }
 body main .tile .singleBlock .single-mansione:nth-child(2) {
   --bg-1: #67e8f9;
   --bg-2: #0891b2;
-  --shadow-1: rgba(103,232,249,0.7);
-  --shadow-2: rgba(103,232,249,0.3);
+  --shadow-1: rgba(103, 232, 249, 0.7);
+  --shadow-2: rgba(103, 232, 249, 0.3);
 }
 body main .tile .singleBlock .single-mansione:nth-child(3) {
   --bg-1: #a78bfa;
   --bg-2: #6d28d9;
-  --shadow-1: rgba(167,139,250,0.7);
-  --shadow-2: rgba(167,139,250,0.3);
+  --shadow-1: rgba(167, 139, 250, 0.7);
+  --shadow-2: rgba(167, 139, 250, 0.3);
 }
 body main .tile .singleBlock .single-mansione:nth-child(4) {
   --bg-1: #f472b6;
   --bg-2: #be185d;
-  --shadow-1: rgba(244,114,182,0.7);
-  --shadow-2: rgba(244,114,182,0.3);
+  --shadow-1: rgba(244, 114, 182, 0.7);
+  --shadow-2: rgba(244, 114, 182, 0.3);
 }
 body main .tile .singleBlock .single-mansione:nth-child(5) {
   --bg-1: #fbbf24;
   --bg-2: #d97706;
-  --shadow-1: rgba(251,191,36,0.7);
-  --shadow-2: rgba(251,191,36,0.3);
+  --shadow-1: rgba(251, 191, 36, 0.7);
+  --shadow-2: rgba(251, 191, 36, 0.3);
 }
 body main .tile .singleBlock .single-mansione:last-child {
   margin-bottom: 0;
@@ -971,7 +975,7 @@ body main .sezioneDestra ul a {
   transition: all 0.4s;
 }
 body main .sezioneDestra ul a:hover {
-  color: #B0CBEE;
+  color: #b0cbee;
 }
 body main .sezioneDestra ul a:hover i {
   margin-right: 12px;
@@ -1130,7 +1134,10 @@ body footer a.tile svg {
     color: #111;
     text-shadow: unset;
   }
-  h1, h2, h3, h4 {
+  h1,
+  h2,
+  h3,
+  h4 {
     color: #111 !important;
     -webkit-text-fill-color: #111 !important;
     background: none !important;
@@ -1153,7 +1160,11 @@ body footer a.tile svg {
   .row {
     display: block !important;
   }
-  .col-12, .col-lg-4, .col-lg-5, .col-lg-7, .col-lg-8 {
+  .col-12,
+  .col-lg-4,
+  .col-lg-5,
+  .col-lg-7,
+  .col-lg-8 {
     width: 100% !important;
     max-width: 100% !important;
     flex: none !important;
