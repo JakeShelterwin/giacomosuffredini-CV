@@ -94,9 +94,97 @@ async function generateCV_PDF() {
     }
 
     /**
-     * Scrive testo con wrapping automatico alla larghezza massima specificata.
+     * Converte una stringa HTML in un array di "parole".
+     * Ogni parola è un array di pezzi { text, href }: i pezzi servono perché una parola
+     * può essere composta da testo normale + link senza spazi in mezzo (es. "<a>sito</a>,").
+     * I <br> e i tag a blocco (p, li, div...) valgono come separatore di parola.
+     * Usa DOMParser, quindi l'HTML viene analizzato in modo inerte (nessuno script/immagine viene eseguito).
+     * @param {string} html - stringa HTML
+     * @returns {Array<Array<{text:string, href:(string|null)}>>}
+     */
+    function htmlToWords(html) {
+      if (!html) return [];
+      const body = new DOMParser().parseFromString(html, 'text/html').body;
+      const BLOCK = new Set(['P', 'DIV', 'LI', 'UL', 'OL', 'BR']);
+      const words = [];
+      let current = [];
+      const flush = () => { if (current.length) { words.push(current); current = []; } };
+
+      const walk = (node, href) => {
+        node.childNodes.forEach(child => {
+          if (child.nodeType === 3) {                       // text node
+            child.textContent.split(/(\s+)/).forEach(part => {
+              if (!part) return;
+              if (/^\s+$/.test(part)) flush();              // spazio → fine parola
+              else current.push({ text: part, href });
+            });
+          } else if (child.nodeType === 1) {                // element
+            const tag = child.tagName;
+            if (BLOCK.has(tag)) flush();
+            if (tag === 'A') {
+              // child.href restituisce l'URL assoluto; safeUrl scarta schemi non ammessi (es. javascript:)
+              walk(child, safeUrl(child.href, null) || href);
+            } else {
+              walk(child, href);
+            }
+            if (BLOCK.has(tag)) flush();
+          }
+        });
+      };
+
+      walk(body, null);
+      flush();
+      return words;
+    }
+
+    /**
+     * Dispone le parole su righe che non superano maxWidth (usa font/size correnti di doc).
+     * @returns {Array<Array<{pieces:Array, w:number, x:number}>>} righe → parole con x relativa all'inizio riga
+     */
+    function layoutWords(words, maxWidth) {
+      const spaceW = doc.getTextWidth(' ');
+
+      // misura ogni pezzo; se una parola è più larga di maxWidth (es. URL lunghissimo) la spezza
+      const measured = [];
+      words.forEach(pieces => {
+        pieces.forEach(p => { p.w = doc.getTextWidth(p.text); });
+        const w = pieces.reduce((s, p) => s + p.w, 0);
+        if (w <= maxWidth) { measured.push({ pieces, w }); return; }
+
+        let chunk = [], chunkW = 0;
+        const pushChunk = () => { if (chunk.length) { measured.push({ pieces: chunk, w: chunkW }); chunk = []; chunkW = 0; } };
+        pieces.forEach(p => {
+          [...p.text].forEach(ch => {
+            const cw = doc.getTextWidth(ch);
+            if (chunkW + cw > maxWidth) pushChunk();
+            const last = chunk[chunk.length - 1];
+            if (last && last.href === p.href) { last.text += ch; last.w += cw; }   // unisce caratteri contigui con lo stesso link
+            else chunk.push({ text: ch, href: p.href, w: cw });
+            chunkW += cw;
+          });
+        });
+        pushChunk();
+      });
+
+      const lines = [];
+      let line = [], lineW = 0;
+      measured.forEach(word => {
+        if (line.length && lineW + spaceW + word.w > maxWidth) {
+          lines.push(line); line = []; lineW = 0;
+        }
+        const x = line.length ? lineW + spaceW : 0;
+        line.push({ pieces: word.pieces, w: word.w, x });
+        lineW = x + word.w;
+      });
+      if (line.length) lines.push(line);
+      return lines;
+    }
+
+    /**
+     * Scrive testo (anche HTML) con wrapping automatico alla larghezza massima specificata.
+     * I tag <a> diventano link cliccabili nel PDF (colore accent + sottolineatura + doc.link).
      * Avanza il cursore y in base al numero di righe scritte.
-     * @param {string} text      - testo da scrivere (può contenere HTML, verrà pulito)
+     * @param {string} text      - testo o HTML da scrivere
      * @param {number} x         - posizione orizzontale di partenza in mm
      * @param {number} fontSize  - dimensione del font in pt
      * @param {Array}  color     - colore RGB come array [R, G, B]
@@ -104,23 +192,40 @@ async function generateCV_PDF() {
      * @param {number} maxWidth  - larghezza massima del testo prima del wrap (default: CONTENT)
      */
     function addText(text, x, fontSize, color, fontStyle = 'normal', maxWidth = CONTENT) {
-      const t = clean(text);      // pulisce il testo da eventuali tag HTML
-      if (!t) return;             // esce subito se il testo è vuoto, evitando righe bianche
+      const words = htmlToWords(text);
+      if (!words.length) return;              // esce subito se il testo è vuoto, evitando righe bianche
 
-      doc.setFontSize(fontSize);              // imposta la dimensione del font
-      doc.setTextColor(...color);             // imposta il colore del testo (spread dell'array RGB)
-      doc.setFont('helvetica', fontStyle);    // imposta il font Helvetica con lo stile richiesto
+      doc.setFontSize(fontSize);
+      doc.setFont('helvetica', fontStyle);
 
-      // splitTextToSize divide il testo in un array di righe che rispettano maxWidth
-      const lines = doc.splitTextToSize(t, maxWidth);
+      const lines = layoutWords(words, maxWidth);
+      const lh = fontSize * 0.42;             // altezza riga stimata (stessa di prima)
 
-      // Stima lo spazio verticale: numero righe × altezza stimata di ogni riga (fontSize × 0.42) + margine basso
-      checkPage(lines.length * (fontSize * 0.42) + 2);
+      checkPage(lines.length * lh + 2);
 
-      doc.text(lines, x, y);  // scrive tutte le righe a partire dalla posizione (x, y)
+      const PT = 0.3528;                      // 1 pt in mm
+      lines.forEach((line, i) => {
+        const ly = y + i * lh;                // baseline della riga
+        line.forEach(word => {
+          let cx = x + word.x;
+          word.pieces.forEach(p => {
+            doc.setTextColor(...(p.href ? C_ACCENT : color));
+            doc.text(p.text, cx, ly);
 
-      // Avanza y in base all'altezza occupata dal blocco di testo
-      y += lines.length * (fontSize * 0.42) + 1;
+            if (p.href) {
+              // sottolineatura
+              doc.setDrawColor(...C_ACCENT);
+              doc.setLineWidth(0.15);
+              doc.line(cx, ly + 0.6, cx + p.w, ly + 0.6);
+              // area cliccabile attorno al testo
+              doc.link(cx, ly - fontSize * PT * 0.8, p.w, fontSize * PT * 1.1, { url: p.href });
+            }
+            cx += p.w;
+          });
+        });
+      });
+
+      y += lines.length * lh + 1;
     }
 
     /**
@@ -444,7 +549,7 @@ async function generateCV_PDF() {
 
         const periodo = clean(article.querySelector('.time span')?.textContent || '');   // periodo formazione (es. "2015 – 2018")
         const grado   = clean(article.querySelector('h4')?.textContent || '');           // titolo/grado conseguito (es. "Diploma Scientifico")
-        const desc    = clean(article.querySelector('.descrizione')?.innerHTML || '');   // descrizione/dettagli del percorso
+        const desc    = article.querySelector('.descrizione')?.innerHTML || '';   // descrizione/dettagli del percorso (HTML grezzo: addText gestisce i link <a>)
 
         // --- LOGICA LINEA VERTICALE (TIMELINE) ---
         const timelineX = ML + 1;        // Posizione X della linea

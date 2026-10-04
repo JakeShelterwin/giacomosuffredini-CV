@@ -705,6 +705,9 @@ body main .tile {
     padding: calc(var(--padding-tiles) * 0.6);
   }
 }
+body main .tile#person {
+  scroll-margin-top: calc(var(--bs-gutter-x));
+}
 body main .tile:last-child {
   margin-bottom: 0px;
 }
@@ -870,6 +873,20 @@ body main .tile .singleBlock .single-mansione .descrizione {
   font-size: 15px;
   padding-top: 5px;
   padding-bottom: 15px;
+}
+body main .tile .singleBlock .single-mansione .descrizione a {
+  color: var(--cosmic-latte);
+  background: linear-gradient(140deg, var(--cosmic-latte) 20%, var(--sapphire) 80%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: rgba(0, 0, 0, 0);
+  background-clip: text;
+  display: block;
+  width: -moz-fit-content;
+  width: fit-content;
+  margin-top: 10px;
+}
+body main .tile .singleBlock .single-mansione .descrizione a:hover, body main .tile .singleBlock .single-mansione .descrizione a:focus-visible {
+  text-decoration: underline;
 }
 body main .tile .singleBlock .single-mansione .descrizione p {
   margin-bottom: 1rem;

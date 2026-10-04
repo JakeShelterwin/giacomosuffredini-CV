@@ -107,6 +107,7 @@ Project Management, Team Leadership, Code Review, IT Management, Troubleshooting
 ## Formazione e Certificazioni
 
 **Master Full Stack Developer** — Boolean Careers (02/2020 – 07/2020)
+**Visualizza Certificato**  [Download](https://www.credential.net/7900bd7a-3015-48fc-87f6-abca3859bcc3#acc.XaD9ewU4)
 Corso intensivo e professionalizzante in sviluppo web, con live-coding quotidiano e simulazione di ambienti di lavoro reali sotto la guida di senior developer.
 
 **Corso di Laurea in Informatica** — Università Ca' Foscari Venezia

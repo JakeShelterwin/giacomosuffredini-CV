@@ -800,6 +800,9 @@ body {
       @media all and (min-width: 576px) {
         padding: calc(var(--padding-tiles) * 0.6);
       }
+      &#person{
+        scroll-margin-top: calc(var(--bs-gutter-x));
+      }
       &:last-child {
         margin-bottom: 0px;
       }
@@ -992,6 +995,24 @@ body {
             font-size: 15px;
             padding-top: 5px;
             padding-bottom: 15px;
+            a {
+              color: var(--cosmic-latte);
+              background: linear-gradient(
+                140deg,
+                var(--cosmic-latte) 20%,
+                var(--sapphire) 80%
+              );
+              -webkit-background-clip: text;
+              -webkit-text-fill-color: rgba(0, 0, 0, 0);
+              background-clip: text;
+              display: block;
+              width: fit-content;
+              margin-top: 10px;
+              &:hover,
+              &:focus-visible {
+                text-decoration: underline;
+              }
+            }
             p {
               margin-bottom: 1rem;
               &:last-child {
